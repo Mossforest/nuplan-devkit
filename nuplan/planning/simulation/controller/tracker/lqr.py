@@ -160,6 +160,8 @@ class LQRTracker(AbstractTracker):
                 initial_lateral_state_vector, velocity_profile, curvature_profile
             )
 
+        print(f'====== {accel_cmd=}, {steering_rate_cmd=} ====== \n\n\n\n\n\n')
+
         return DynamicCarState.build_from_rear_axle(
             rear_axle_to_center_dist=initial_state.car_footprint.rear_axle_to_center_dist,
             rear_axle_velocity_2d=initial_state.dynamic_car_state.rear_axle_velocity_2d,

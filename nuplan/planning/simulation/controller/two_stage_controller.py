@@ -52,6 +52,7 @@ class TwoStageController(AbstractEgoController):
         sampling_time = next_iteration.time_point - current_iteration.time_point
 
         # Compute the dynamic state to propagate the model
+        print(f'\n\n\n\n\n\n\n\n\n\n ====== {ego_state=}, \n\n======{trajectory=}  \n\n\n ')
         dynamic_state = self._tracker.track_trajectory(current_iteration, next_iteration, ego_state, trajectory)
 
         # Propagate ego state using the motion model
