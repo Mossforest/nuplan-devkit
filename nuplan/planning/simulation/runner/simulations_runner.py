@@ -111,18 +111,21 @@ class SimulationRunner(AbstractRunner):
 
             # Plan path based on all planner's inputs
             trajectory = self.planner.compute_trajectory(planner_input)
+            self._simulation.callback.on_planner_end(self.simulation.setup, self.planner, trajectory)
 
             # Propagate simulation based on planner trajectory
-            self._simulation.callback.on_planner_end(self.simulation.setup, self.planner, trajectory)
-            self.simulation.propagate(trajectory)
+            for t in range(10):
+                if not self.simulation.is_simulation_running():
+                    break
+                self.simulation.propagate(trajectory)
 
-            # Execute specific callback
-            self.simulation.callback.on_step_end(self.simulation.setup, self.planner, self.simulation.history.last())
+                # Execute specific callback
+                self.simulation.callback.on_step_end(self.simulation.setup, self.planner, self.simulation.history.last())
 
-            # Store reports for simulations which just finished running
-            current_time = time.perf_counter()
-            if not self.simulation.is_simulation_running():
-                report.end_time = current_time
+                # Store reports for simulations which just finished running
+                current_time = time.perf_counter()
+                if not self.simulation.is_simulation_running():
+                    report.end_time = current_time
 
         # Execute specific callback
         self.simulation.callback.on_simulation_end(self.simulation.setup, self.planner, self.simulation.history)
