@@ -114,10 +114,18 @@ class SimulationRunner(AbstractRunner):
             self._simulation.callback.on_planner_end(self.simulation.setup, self.planner, trajectory)
 
             # Propagate simulation based on planner trajectory
-            for t in range(10):
+            t = 0
+            while t >= 0:
+                # print(f'!!!!!!!!!! Step {t} / 10 !!!!!!!!!!')
                 if not self.simulation.is_simulation_running():
                     break
-                self.simulation.propagate(trajectory)
+                
+                # inside the timefield of trajectory, propagate
+                iteration = self.simulation._time_controller.get_iteration()
+                if trajectory.start_time <= iteration.time_point <= trajectory.end_time:
+                    self.simulation.propagate(trajectory)
+                else: # outside, do the callback but not next while-loop
+                    t = -10
 
                 # Execute specific callback
                 self.simulation.callback.on_step_end(self.simulation.setup, self.planner, self.simulation.history.last())
@@ -126,6 +134,7 @@ class SimulationRunner(AbstractRunner):
                 current_time = time.perf_counter()
                 if not self.simulation.is_simulation_running():
                     report.end_time = current_time
+                t += 1
 
         # Execute specific callback
         self.simulation.callback.on_simulation_end(self.simulation.setup, self.planner, self.simulation.history)
