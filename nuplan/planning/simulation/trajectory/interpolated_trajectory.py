@@ -62,6 +62,11 @@ class InterpolatedTrajectory(AbstractTrajectory):
     def end_time(self) -> TimePoint:
         """Inherited, see superclass."""
         return self._trajectory[-1].time_point
+    
+    @property
+    def mid_time(self) -> TimePoint:
+        """Inherited, see superclass."""
+        return self._trajectory[len(self._trajectory)//2].time_point
 
     def get_state_at_time(self, time_point: TimePoint) -> InterpolatableState:
         """Inherited, see superclass."""

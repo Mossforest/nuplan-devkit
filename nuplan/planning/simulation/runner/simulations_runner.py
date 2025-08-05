@@ -122,7 +122,7 @@ class SimulationRunner(AbstractRunner):
                 
                 # inside the timefield of trajectory, propagate
                 iteration = self.simulation._time_controller.get_iteration()
-                if trajectory.start_time <= iteration.time_point <= trajectory.end_time:
+                if trajectory.start_time <= iteration.time_point <= trajectory.mid_time:
                     self.simulation.propagate(trajectory)
                 else: # outside, do the callback but not next while-loop
                     t = -10

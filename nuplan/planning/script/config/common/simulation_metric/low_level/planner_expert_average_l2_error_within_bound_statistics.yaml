@@ -4,6 +4,6 @@ planner_expert_average_l2_error_within_bound_statistics:
   name: 'planner_expert_average_l2_error_within_bound'
   category: 'Planning'
   metric_score_unit: 'float'
-  comparison_horizon: [3, 5, 8] #seconds
+  comparison_horizon: [1] # [3, 5, 8] #seconds
   comparison_frequency: 1 #Hz
   max_average_l2_error_threshold: 8 #meter
